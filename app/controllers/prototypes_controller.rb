@@ -1,5 +1,5 @@
 class PrototypesController < ApplicationController
-  before_action :set_prototype, expect: [:imdex, :new, :create]
+  before_action :set_prototype, except: [:index, :new, :create]
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :contributor_confirmation, only: [:edit, :update, :destroy]
 
@@ -22,17 +22,17 @@ class PrototypesController < ApplicationController
   end
 
   def show
-    @prototype = Prototype.find(params[:id])
+    # @prototype = Prototype.find(params[:id])
     @comment = Comment.new
     @comments = @prototype.comments.includes(:user)
   end
 
   def edit
-    @prototype = Prototype.find(params[:id])
+    # @prototype = Prototype.find(params[:id])
   end
 
   def update
-    @prototype = Prototype.find(params[:id])
+    # @prototype = Prototype.find(params[:id])
 
     if @prototype.update(prototype_params)
       redirect_to prototype_path
@@ -42,8 +42,12 @@ class PrototypesController < ApplicationController
   end
 
   def destroy
-    prototype = Prototype.find(params[:id])
-    prototype.destroy
+    # @prototype = Prototype.find(params[:id])
+    if @prototype.destroy
+      redirect_to root_path
+    else
+      redirect_to root_path
+    end
   end
 
   private
